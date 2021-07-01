@@ -14,6 +14,10 @@ buildscript {
     }
 }
 
+plugins {
+    id 'maven-publish'
+}
+
 allprojects {
     repositories {
         jcenter()
@@ -31,10 +35,6 @@ ext {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-plugins {
-    id 'maven-publish'
 }
 
 publishing {
