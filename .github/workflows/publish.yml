@@ -1,23 +1,15 @@
-name: Publish package to GitHub Packages
+name: Create tag on push
 on:
   push:
     branches:
       - develop
 jobs:
-  publish:
-    runs-on: ubuntu-latest 
-    permissions: 
-      contents: read
-      packages: write 
+  build:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v1
-      - name: Publish package
-        run: gradle publish
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@master
+    - name: Bump version and push tag
+      uses: anothrNick/github-tag-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REPO_OWNER: justinrubek
