@@ -45,14 +45,14 @@ object Engine {
     private var stepsCount = 0
 
     fun build(items: ArrayList<PickerItem>, scaleX: Float, scaleY: Float): List<CircleBody> {
-        val density = interpolate(0.8f, 0.2f, radius / 100f)
         items.forEach { 
             // Assign the individual radius
-            radius = it.radius
+            val calcRadius = interpolate(0.1f, 0.25f, it.radius / 100f)
+            val density = interpolate(0.8f, 0.2f, it.radius / 100f)
             // Create the bodies
             val x = if (Random().nextBoolean()) -startX else startX
             val y = if (Random().nextBoolean()) -0.5f / scaleY else 0.5f / scaleY
-            bodies.add(CircleBody(world, Vec2(x, y), bubbleRadius * scaleX, (bubbleRadius * scaleX) * 1.3f, density))
+            bodies.add(CircleBody(world, Vec2(x, y), calcRadius * scaleX, (calcRadius * scaleX) * 1.3f, density))
         }
         this.scaleX = scaleX
         this.scaleY = scaleY
@@ -63,12 +63,12 @@ object Engine {
 
     fun buildBodiesWithOne(scaleX: Float, scaleY: Float, bodyRadius: Int):CircleBody{
         // First assign the radius of the indivudual body to the engine
-        radius = bodyRadius
-        val density = interpolate(0.8f, 0.2f, radius / 100f)
+        val calcRadius = interpolate(0.1f, 0.25f, bodyRadius / 100f)
+        val density = interpolate(0.8f, 0.2f, bodyRadius / 100f)
 
         val x = if (Random().nextBoolean()) -startX else startX
         val y = if (Random().nextBoolean()) -0.5f / scaleY else 0.5f / scaleY
-        val body = CircleBody(world, Vec2(x, y), bubbleRadius * scaleX, (bubbleRadius * scaleX) * 1.3f, density)
+        val body = CircleBody(world, Vec2(x, y), calcRadius * scaleX, (calcRadius * scaleX) * 1.3f, density)
         bodies.add(body)
         return body
     }
