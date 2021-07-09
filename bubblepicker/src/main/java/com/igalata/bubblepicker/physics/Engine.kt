@@ -1,6 +1,7 @@
 package com.igalata.bubblepicker.physics
 
 import com.igalata.bubblepicker.rendering.Item
+import com.igalata.bubblepicker.model.PickerItem
 import com.igalata.bubblepicker.sqr
 import org.jbox2d.common.Vec2
 import org.jbox2d.dynamics.World
@@ -43,9 +44,12 @@ object Engine {
         get() = if (centerImmediately) 0.5f else 2.2f
     private var stepsCount = 0
 
-    fun build(bodiesCount: Int, scaleX: Float, scaleY: Float): List<CircleBody> {
+    fun build(items: ArrayList<PickerItem>, scaleX: Float, scaleY: Float): List<CircleBody> {
         val density = interpolate(0.8f, 0.2f, radius / 100f)
-        for (i in 0..bodiesCount - 1) {
+        items.forEach { 
+            // Assign the individual radius
+            radius = it.radius
+            // Create the bodies
             val x = if (Random().nextBoolean()) -startX else startX
             val y = if (Random().nextBoolean()) -0.5f / scaleY else 0.5f / scaleY
             bodies.add(CircleBody(world, Vec2(x, y), bubbleRadius * scaleX, (bubbleRadius * scaleX) * 1.3f, density))
@@ -57,7 +61,9 @@ object Engine {
         return bodies
     }
 
-    fun buildBodiesWithOne(scaleX: Float, scaleY: Float):CircleBody{
+    fun buildBodiesWithOne(scaleX: Float, scaleY: Float, bodyRadius: Int):CircleBody{
+        // First assign the radius of the indivudual body to the engine
+        radius = bodyRadius
         val density = interpolate(0.8f, 0.2f, radius / 100f)
 
         val x = if (Random().nextBoolean()) -startX else startX

@@ -70,8 +70,9 @@ class PickerRenderer(val glView: View) : GLSurfaceView.Renderer {
 
     override fun onDrawFrame(gl: GL10?) {
         if (hasNewItems) {
-            val newBody = Engine.buildBodiesWithOne(scaleX, scaleY)
-            circles.add(Item(items.last(), newBody))
+            val pickerItem = items.last()
+            val newBody = Engine.buildBodiesWithOne(scaleX, scaleY, pickerItem.radius)
+            circles.add(Item(pickerItem, newBody))
             textureIds = textureIds?.copyOf(circles.size * 2)
             vertices = vertices?.copyOf(circles.size * 8)
             textureVertices = textureVertices?.copyOf(circles.size * 8)
@@ -90,7 +91,7 @@ class PickerRenderer(val glView: View) : GLSurfaceView.Renderer {
     fun initialize() {
         clear()
         Engine.centerImmediately = centerImmediately
-        Engine.build(items.size, scaleX, scaleY).forEachIndexed { index, body ->
+        Engine.build(items, scaleX, scaleY).forEachIndexed { index, body ->
             circles.add(Item(items[index], body))
         }
         items.forEach { if (it.isSelected) Engine.resize(circles.first { circle -> circle.pickerItem == it }) }
