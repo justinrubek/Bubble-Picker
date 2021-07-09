@@ -48,7 +48,7 @@ object Engine {
         items.forEach { 
             // Assign the individual radius
             this.radius = it.radius
-            val density = interpolate(0.8f, 0.2f, bodyRadius / 100f)
+            val density = interpolate(0.8f, 0.2f, bubbleRadius / 100f)
             // Create the bodies
             val x = if (Random().nextBoolean()) -startX else startX
             val y = if (Random().nextBoolean()) -0.5f / scaleY else 0.5f / scaleY
@@ -64,11 +64,11 @@ object Engine {
     fun buildBodiesWithOne(scaleX: Float, scaleY: Float, bodyRadius: Int):CircleBody{
         // First assign the radius of the indivudual body to the engine
         this.radius = bodyRadius
-        val density = interpolate(0.8f, 0.2f, bodyRadius / 100f)
+        val density = interpolate(0.8f, 0.2f, bubbleRadius / 100f)
 
         val x = if (Random().nextBoolean()) -startX else startX
         val y = if (Random().nextBoolean()) -0.5f / scaleY else 0.5f / scaleY
-        val body = CircleBody(world, Vec2(x, y), bodyRadius * scaleX, (bodyRadius * scaleX) * 1.3f, density)
+        val body = CircleBody(world, Vec2(x, y), bubbleRadius * scaleX, (bubbleRadius * scaleX) * 1.3f, density)
         bodies.add(body)
         return body
     }
